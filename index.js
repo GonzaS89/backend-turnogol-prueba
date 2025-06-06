@@ -10,9 +10,9 @@ const PORT = process.env.PORT || 3002;
 
 app.use(cors({ origin: '*' }));
 
-app.use(express.json())
+app.use(express.json())/
 
-app.get('/canchis', async (req, res) => {
+app.get('/canchas', async (req, res) => {
   try {
     const [resultado] = await db.execute('SELECT * FROM canchas');
     res.json(resultado);
@@ -22,7 +22,7 @@ app.get('/canchis', async (req, res) => {
   }
 })
 
-app.get('/api/pruebas/turnos_canchas', async (req, res) => {
+app.get('/pruebas/turnos_canchas', async (req, res) => {
   try {
     const [resultado] = await db.execute('SELECT * FROM turnos_canchas');
     res.json(resultado);
@@ -32,7 +32,7 @@ app.get('/api/pruebas/turnos_canchas', async (req, res) => {
   }
 })
 
-app.get('/api/pruebas/turnos_canchas/canchas', async (req, res) => {
+app.get('/pruebas/turnos_canchas/canchas', async (req, res) => {
   const { id } = req.query;
 
   try {
@@ -45,7 +45,7 @@ app.get('/api/pruebas/turnos_canchas/canchas', async (req, res) => {
   }
 })
 
-app.put("/api/pruebas/turnos/:turnoId", async (req, res) => {
+app.put("/pruebas/turnos/:turnoId", async (req, res) => {
   const { nombre, telefono, dni } = req.body;
   const { turnoId : idTurno } = req.params; // Obtenemos el turno_id de los parámetros de la ruta
 
@@ -71,7 +71,7 @@ app.put("/api/pruebas/turnos/:turnoId", async (req, res) => {
 
 /* CONFIRMAR TURNO QUE ESTABA EN PENDIENTE */
 
-app.put("/api/pruebas/turnos/confirmar/:turnoId", async (req, res) => {
+app.put("/pruebas/turnos/confirmar/:turnoId", async (req, res) => {
   const { turnoId } = req.params;
 
   try {
@@ -95,7 +95,7 @@ app.put("/api/pruebas/turnos/confirmar/:turnoId", async (req, res) => {
 
 
 // Suponiendo que la tabla se llama turnos_canchas
-app.get("/api/pruebas/turnos_canchas/canchas", async (req, res) => {
+app.get("/pruebas/turnos_canchas/canchas", async (req, res) => {
   const { id } = req.query;
 
   try {
@@ -114,7 +114,7 @@ app.get("/api/pruebas/turnos_canchas/canchas", async (req, res) => {
 
 /* LIBERAR TURNO */
 
-app.put("/api/pruebas/turnos/liberar/:id", async (req, res) => {
+app.put("/pruebas/turnos/liberar/:id", async (req, res) => {
   console.log("Datos recibidos:", req.body);
   const { id } = req.params;
 
@@ -139,7 +139,7 @@ app.put("/api/pruebas/turnos/liberar/:id", async (req, res) => {
 
 /* CODIGO PARA CREAR TURNOS */
 
-app.post("/api/pruebas/turnos_canchas", async (req, res) => {
+app.post("/pruebas/turnos_canchas", async (req, res) => {
   const { hora, cancha_id, estado, precio } = req.body;
 
   try {
@@ -157,7 +157,7 @@ app.post("/api/pruebas/turnos_canchas", async (req, res) => {
 
 /* BORRAR TURNO */
 
-app.delete("/api/pruebas/turnos_canchas/:id", async (req, res) => {
+app.delete("/pruebas/turnos_canchas/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
