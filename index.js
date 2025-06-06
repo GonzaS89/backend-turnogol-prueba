@@ -12,7 +12,7 @@ app.use(cors({ origin: '*' }));
 
 app.use(express.json())
 
-app.get('/api/canchitas', async (req, res) => {
+app.get('/api/canchis', async (req, res) => {
   try {
     const [resultado] = await db.execute('SELECT * FROM canchas');
     res.json(resultado);
