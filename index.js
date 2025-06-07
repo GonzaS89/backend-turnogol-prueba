@@ -183,7 +183,7 @@ app.put("/api-pruebas/turnos/pagar/:id", async (req, res) => {
   console.log("Datos recibidos:", { id, tipopago }); // 👈 Log entrada
 
   try {
-    const [result] = await db.query(
+    const [result] = await pool.query(
       "UPDATE turnos_canchas SET tipopago = ? WHERE id = ?",
       [tipopago, id]
     );
