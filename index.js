@@ -1,5 +1,5 @@
 import express from "express";
-import db from "./db.js";
+import pool from "./db.js";
 import dotenv from 'dotenv';
 import cors from 'cors';
 
@@ -14,7 +14,7 @@ app.use(express.json())/
 
 app.get('/canchas', async (req, res) => {
   try {
-    const [resultado] = await db.execute('SELECT * FROM canchas');
+    const [resultado] = await pool.execute('SELECT * FROM canchas');
     res.json(resultado);
   } catch {
     console.error('Error al obtener canchas');
@@ -24,7 +24,7 @@ app.get('/canchas', async (req, res) => {
 
 app.get('/turnos_canchas', async (req, res) => {
   try {
-    const [resultado] = await db.execute('SELECT * FROM turnos_canchas');
+    const [resultado] = await pool.execute('SELECT * FROM turnos_canchas');
     res.json(resultado);
   } catch {
     console.error('Error al obtener canchas');
@@ -37,7 +37,7 @@ app.get('/turnos_canchas/canchas', async (req, res) => {
 
   try {
     const query = "SELECT * FROM turnos_canchas WHERE cancha_id = ?"
-    const [resultado] = await db.execute(query, [id]);
+    const [resultado] = await pool.execute(query, [id]);
     res.json(resultado)
   } catch {
     console.error('Error al filtrar turnos');
@@ -50,7 +50,7 @@ app.put("/turnos/:turnoId", async (req, res) => {
   const { turnoId : idTurno } = req.params; // Obtenemos el turno_id de los parámetros de la ruta
 
   try {
-    const [resultado] = await db.execute(
+    const [resultado] = await pool.execute(
       `UPDATE turnos_canchas
        SET nombre = ?, telefono = ?, dni =  ?, estado = 'pendiente'
        WHERE id = ?`,
@@ -75,7 +75,7 @@ app.put("/turnos/confirmar/:turnoId", async (req, res) => {
   const { turnoId } = req.params;
 
   try {
-    const [resultado] = await db.execute(
+    const [resultado] = await pool.execute(
       `UPDATE turnos_canchas
        SET estado = 'reservado'
        WHERE id = ?`,
@@ -99,7 +99,7 @@ app.get("/turnos_canchas/canchas", async (req, res) => {
   const { id } = req.query;
 
   try {
-    const [turnos] = await db.execute(
+    const [turnos] = await pool.execute(
       "SELECT * FROM turnos_canchas WHERE cancha_id = ?",
       [id]
     );
@@ -119,7 +119,7 @@ app.put("/turnos/liberar/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [resultado] = await db.execute(
+    const [resultado] = await pool.execute(
       `UPDATE turnos_canchas 
        SET estado = 'disponible', nombre = NULL, dni = NULL , telefono = NULL 
        WHERE id = ?`,
@@ -143,7 +143,7 @@ app.post("/turnos_canchas", async (req, res) => {
   const { hora, cancha_id, estado, precio } = req.body;
 
   try {
-    const [resultado] = await db.execute(
+    const [resultado] = await pool.execute(
       "INSERT INTO turnos_canchas (hora, cancha_id, estado, precio) VALUES (?, ?, ?, ?)",
       [hora, cancha_id, estado, precio]
     );
@@ -161,7 +161,7 @@ app.delete("/turnos_canchas/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const [resultado] = await db.execute("DELETE FROM turnos_canchas WHERE id = ?", [id]);
+    const [resultado] = await pool.execute("DELETE FROM turnos_canchas WHERE id = ?", [id]);
 
     if (resultado.affectedRows > 0) {
       res.json({ mensaje: "Turno eliminado correctamente" });
