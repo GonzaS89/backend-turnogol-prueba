@@ -174,6 +174,8 @@ app.delete("/turnos_canchas/:id", async (req, res) => {
   }
 });
 
+/* ACTUALIZACION DE TIPO DE PAGO */
+
 app.put("/turnos/pagar/:id", async (req, res) => {
   const { id } = req.params;
   const { tipo_pago } = req.body;
