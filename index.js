@@ -178,14 +178,14 @@ app.delete("/turnos_canchas/:id", async (req, res) => {
 
 app.put("/api-pruebas/turnos/pagar/:id", async (req, res) => {
   const { id } = req.params;
-  const { tipo_pago } = req.body;
+  const { tipopago } = req.body;
 
-  console.log("Datos recibidos:", { id, tipo_pago }); // 👈 Log entrada
+  console.log("Datos recibidos:", { id, tipopago }); // 👈 Log entrada
 
   try {
     const [result] = await db.query(
-      "UPDATE turnos_canchas SET tipo_pago = ? WHERE id = ?",
-      [tipo_pago, id]
+      "UPDATE turnos_canchas SET tipopago = ? WHERE id = ?",
+      [tipopago, id]
     );
     
     console.log("Resultado de la consulta:", result); // 👈 Log resultado
