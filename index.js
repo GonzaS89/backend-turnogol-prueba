@@ -174,6 +174,21 @@ app.delete("/turnos_canchas/:id", async (req, res) => {
   }
 });
 
+app.put("/turnos/pagar/:id", async (req, res) => {
+  const { id } = req.params;
+  const { tipo_pago } = req.body;
+
+  try {
+    await db.query("UPDATE turnos_canchas SET tipo_pago = ? WHERE id = ?", [
+      tipo_pago,
+      id,
+    ]);
+    res.sendStatus(200);
+  } catch (err) {
+    res.status(500).json({ error: "Error al actualizar el pago" });
+  }
+});
+
 app.listen(PORT, '0.0.0.0', () => {
   console.log(`Backend corriendo en http://0.0.0.0:${PORT}`);
 });
