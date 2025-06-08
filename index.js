@@ -115,7 +115,6 @@ app.get("/turnos_canchas/canchas", async (req, res) => {
 /* LIBERAR TURNO */
 
 app.put("/turnos/liberar/:id", async (req, res) => {
-  console.log("Datos recibidos:", req.body);
   const { id } = req.params;
 
   try {
@@ -174,16 +173,14 @@ app.delete("/turnos_canchas/:id", async (req, res) => {
   }
 });
 
-/* ACTUALIZACION DE TIPO DE PAGO */
+/* { ACTUALIZACION DE TIPO DE PAGO } */
 
 app.put("/turnos/pagar/:id", async (req, res) => {
   const { id } = req.params;
   const { tipopago } = req.body;
 
-  console.log("Datos recibidos:", { id, tipopago }); // 👈 Log entrada
-
   try {
-    const [result] = await pool.query(
+    const [result] = await pool.execute(
       "UPDATE turnos_canchas SET tipopago = ? WHERE id = ?",
       [tipopago, id]
     );
