@@ -139,12 +139,12 @@ app.put("/turnos/liberar/:id", async (req, res) => {
 /* CODIGO PARA CREAR TURNOS */
 
 app.post("/turnos_canchas", async (req, res) => {
-  const { hora, cancha_id, estado, precio } = req.body;
+  const { hora, cancha_id, estado, precio, fecha } = req.body;
 
   try {
     const [resultado] = await pool.execute(
-      "INSERT INTO turnos_canchas (hora, cancha_id, estado, precio) VALUES (?, ?, ?, ?)",
-      [hora, cancha_id, estado, precio]
+      "INSERT INTO turnos_canchas (hora, cancha_id, estado, precio, fecha) VALUES (?, ?, ?, ?, ?)",
+      [hora, cancha_id, estado, precio, fecha]
     );
 
     res.status(201).json({ mensaje: "Turno creado", id: resultado.insertId });
