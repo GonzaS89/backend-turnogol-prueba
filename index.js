@@ -177,15 +177,19 @@ app.delete("/turnos_canchas/:id", async (req, res) => {
 
 app.put("/turnos/pagar/:id", async (req, res) => {
   const { id } = req.params;
-  const { tipopago } = req.body;
+  const { tipoPago, condicion } = req.body;
+
+  console.log("Datos recibidos:", { id, tipoPago });
+
+  if (!id || isNaN(id) || !tipoPago) {
+    return res.status(400).json({ error: "Datos inválidos" });
+  }
 
   try {
     const [result] = await pool.execute(
-      "UPDATE turnos_canchas SET tipopago = ? WHERE id = ?",
-      [tipopago, id]
+      "UPDATE turnos_canchas SET tipo_pago = ?, condicion = ? WHERE id = ?",
+      [tipoPago,condicion, id]
     );
-    
-    console.log("Resultado de la consulta:", result); // 👈 Log resultado
 
     if (result.affectedRows === 0) {
       return res.status(404).json({ error: "Turno no encontrado" });
@@ -193,8 +197,7 @@ app.put("/turnos/pagar/:id", async (req, res) => {
 
     res.sendStatus(200);
   } catch (err) {
-    console.error("Error SQL:", err.message); // 👈 Log del error específico
-    console.error("Stack completo:", err);    // 👈 Detalles adicionales
+    console.error("Error SQL:", err.message);
     res.status(500).json({ error: "Error al actualizar el pago", detalle: err.message });
   }
 });
