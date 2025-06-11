@@ -46,15 +46,15 @@ app.get('/turnos_canchas/canchas', async (req, res) => {
 })
 
 app.put("/turnos/:turnoId", async (req, res) => {
-  const { nombre, telefono, dni } = req.body;
+  const { nombre, dni } = req.body;
   const { turnoId : idTurno } = req.params; // Obtenemos el turno_id de los parámetros de la ruta
 
   try {
     const [resultado] = await pool.execute(
       `UPDATE turnos_canchas
-       SET nombre = ?, telefono = ?, dni =  ?, estado = 'pendiente'
+       SET nombre = ?, dni =  ?, estado = 'pendiente'
        WHERE id = ?`,
-      [nombre, telefono, dni, idTurno]
+      [nombre, dni, idTurno]
     );
 
     if (resultado.affectedRows > 0) {
